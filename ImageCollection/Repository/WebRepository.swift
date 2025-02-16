@@ -37,7 +37,7 @@ extension WebRepository {
             let request = try endpoint.urlRequest(baseURL: baseURL)
             showLog(from: request)
 
-            // 1️⃣ 캐시 확인
+            // 캐시 확인
             if let cachedResponse = URLCache.shared.cachedResponse(for: request) {
                 print("✅ Using Cached Data")
                 return Just(cachedResponse.data)
@@ -46,7 +46,7 @@ extension WebRepository {
                     .eraseToAnyPublisher()
             }
 
-            // 2️⃣ 네트워크 요청
+            // 네트워크 요청
             return session
                 .dataTaskPublisher(for: request)
                 .tryMap { output -> (data: Data, response: URLResponse) in
@@ -55,7 +55,7 @@ extension WebRepository {
                         throw URLError(.badServerResponse)
                     }
 
-                    // 3️⃣ 네트워크 응답을 캐시에 저장
+                    // 캐시 저장
                     let cachedResponse = CachedURLResponse(response: output.response, data: output.data)
                     URLCache.shared.storeCachedResponse(cachedResponse, for: request)
                     return (output.data, httpResponse)

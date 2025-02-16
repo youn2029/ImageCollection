@@ -9,7 +9,6 @@ import SwiftUI
 
 struct CollectionListRow: View {
     @State var collectionVO: CollectionVO
-//    @State private var isPresentWebView: Bool = false
     
     var day: String { return Date.formatDateToDayString(date: collectionVO.datetime)}
     var time: String { return Date.formatDateToTimeString(date: collectionVO.datetime)}
